@@ -33,14 +33,15 @@ class BanService {
 	 * @param bool $recursive
 	 */
 	public function ban($url, $recursive = FALSE) {
-		$this->systemLogger->log('Ban ' . $url);
-
-		if(array_key_exists('allowBan', $this->settings) && $this->settings['allowBan'] === TRUE) {
+		if (array_key_exists('allowBan', $this->settings) && $this->settings['allowBan'] === TRUE) {
+			$this->systemLogger->log('Ban ' . $url);
 			$curlHandle = curl_init();
 
 			curl_setopt($curlHandle, CURLOPT_URL, $url);
 			curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, 'PURGE');
 			curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+			curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+			curl_exec($curlHandle);
 
 			curl_close($curlHandle);
 		}
