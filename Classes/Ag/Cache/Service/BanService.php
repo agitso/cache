@@ -37,7 +37,7 @@ class BanService {
 			$curlHandle = curl_init();
 
 			curl_setopt($curlHandle, CURLOPT_URL, $url);
-			curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, 'PURGE');
+			curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, 'BAN');
 			curl_setopt($curlHandle, CURLOPT_HEADER, 0);
 			curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
 			curl_exec($curlHandle);
