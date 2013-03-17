@@ -2,6 +2,7 @@
 namespace Ag\Cache\Aspect;
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Reflection\ObjectAccess;
 
 /**
  * @Flow\Scope("singleton")
@@ -53,15 +54,11 @@ class ExpireAspect {
 		if($expire !== NULL && $expire instanceof \Ag\Cache\Annotations\Expire) {
 			if(array_key_exists('enableExpire', $this->settings) && $this->settings['enableExpire'] === TRUE) {
 
-				$controller = $this->objectManager->get($joinPoint->getClassName());
+				$response = ObjectAccess::getProperty($joinPoint->getProxy(), 'response', TRUE);
 
-				if($controller instanceof \TYPO3\Flow\Mvc\Controller\ActionController) {
-					$response = $controller->getControllerContext()->getResponse();
-
-					if($response instanceof \TYPO3\Flow\Http\Response) {
-						$response->setMaximumAge($expire->seconds);
-						$response->setExpires(new \DateTime('+'.$expire->seconds .' seconds'));
-					}
+				if($response instanceof \TYPO3\Flow\Http\Response) {
+					$response->setMaximumAge($expire->seconds);
+					$response->setExpires(new \DateTime('+'.$expire->seconds .' seconds'));
 				}
 			}
 		}
