@@ -11,12 +11,6 @@ use TYPO3\Flow\Reflection\ObjectAccess;
 class ExpireAspect {
 
 	/**
-	 * @var \TYPO3\Flow\Log\SystemLoggerInterface
-	 * @Flow\Inject
-	 */
-	protected $systemLogger;
-
-	/**
 	 * @var \TYPO3\Flow\Reflection\ReflectionService
 	 * @Flow\Inject
 	 */
@@ -33,12 +27,6 @@ class ExpireAspect {
 	public function injectSettings(array $settings) {
 		$this->settings = $settings;
 	}
-
-	/**
-	 * @var \TYPO3\Flow\Object\ObjectManagerInterface
-	 * @Flow\Inject
-	 */
-	protected $objectManager;
 
 
 	/**
