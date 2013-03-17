@@ -1,0 +1,4 @@
+Ag:
+  Cache:
+    enableExpire: TRUE
+    allowBan: TRUE
