@@ -42,11 +42,21 @@ class ExpireAspect {
 		if($expire !== NULL && $expire instanceof \Ag\Cache\Annotations\Expire) {
 			if(array_key_exists('enableExpire', $this->settings) && $this->settings['enableExpire'] === TRUE) {
 
-				$response = ObjectAccess::getProperty($joinPoint->getProxy(), 'response', TRUE);
+				$request = ObjectAccess::getProperty($joinPoint->getProxy(), 'request', TRUE);
 
-				if($response instanceof \TYPO3\Flow\Http\Response) {
-					$response->setMaximumAge($expire->seconds);
-					$response->setExpires(new \DateTime('+'.$expire->seconds .' seconds'));
+				if($request instanceof \TYPO3\Flow\Mvc\ActionRequest) {
+					$request = $request->getHttpRequest();
+
+					if($request instanceof \TYPO3\Flow\Http\Request) {
+						if($request->getMethod() === 'GET') {
+							$response = ObjectAccess::getProperty($joinPoint->getProxy(), 'response', TRUE);
+
+							if($response instanceof \TYPO3\Flow\Http\Response) {
+								$response->setMaximumAge($expire->seconds);
+								$response->setExpires(new \DateTime('+'.$expire->seconds .' seconds'));
+							}
+						}
+					}
 				}
 			}
 		}
