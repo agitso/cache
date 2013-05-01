@@ -1,0 +1,2 @@
+Ag_Cache_String:
+  frontend: TYPO3\Flow\Cache\Frontend\StringFrontend
